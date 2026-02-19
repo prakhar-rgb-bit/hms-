@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Appointments</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="../pdf-export.js"></script>
+
+</head>
+<body>
+
+<div class="container">
+    <div class="sidebar">
+        <a href="homepage.html"><i class="fas fa-home"></i> Home</a>
+        <a href="app.html" class="active"><i class="fas fa-calendar-check"></i> Appointments</a>
+        <a href="../Patient/patient.html"><i class="fas fa-users"></i> Patients</a>
+        <a href="reports.html"><i class="fas fa-chart-line"></i> Reports</a>
+        <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+        <a href="../login.html" onclick="localStorage.clear()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+
+    <div class="dashboard-container">
+
+    <div class="header">
+        <h2>Upcoming Patient Appointments</h2>
+        <div class="doctor-profile">
+            <div class="info">
+                <h3>Dr. Emily Carter</h3>
+                <p>Cardiologist</p>
+            </div>
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrLPPHEfAOCzCmusBUbirWlRzdCt6s6M-1wQ&s" alt="Doctor's Photo" class="photo">
+            </div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Patient Name</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Reason</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Tejash</td>
+                <td>2025-09-22</td>
+                <td>10:00 AM</td>
+                <td>Routine check-up</td>
+                <td><span style="color: var(--accent-color); font-weight: 500;">Confirmed</span></td>
+            </tr>
+            <tr>
+                <td>Deepak singh</td>
+                <td>2025-09-22</td>
+                <td>10:45 AM</td>
+                <td>Follow-up on blood pressure</td>
+                <td><span style="color: var(--accent-color); font-weight: 500;">Confirmed</span></td>
+            </tr>
+            <tr>
+                <td>Virat kohli</td>
+                <td>2025-09-23</td>
+                <td>09:30 AM</td>
+                <td>Chest pain consultation</td>
+                <td><span style="color: #ffc107; font-weight: 500;">Pending</span></td>
+            </tr>
+            <tr>
+                <td>Afreen khan</td>
+                <td>2025-09-23</td>
+                <td>11:15 AM</td>
+                <td>Medication review</td>
+                <td><span style="color: var(--accent-color); font-weight: 500;">Confirmed</span></td>
+            </tr>
+            <tr>
+                <td>Joya </td>
+                <td>2025-09-24</td>
+                <td>08:00 AM</td>
+                <td>Annual physical</td>
+                <td><span style="color: #dc3545; font-weight: 500;">Cancelled</span></td>
+            </tr>
+             <tr>
+                <td>Isabella White</td>
+                <td>2025-09-24</td>
+                <td>01:00 PM</td>
+                <td>Post-surgery check</td>
+                <td><span style="color: var(--accent-color); font-weight: 500;">Confirmed</span></td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</body>
+</html>

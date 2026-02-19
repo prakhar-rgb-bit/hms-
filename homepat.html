@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Portal - Hospital Management System</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="../pdf-export.js"></script>
+</head>
+<body>
+
+<div class="header patient">
+    <h1>Patient Portal</h1>
+    <div class="user-info">
+        <span id="patientName">John Smith</span>
+        <div class="profile-pic patient" id="profilePic">JS</div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="sidebar">
+        <a href="homepat.html" class="active"><i class="fas fa-home"></i> Home</a>
+        <a href="../bookapp.html"><i class="fas fa-calendar-plus"></i> Book Appointment</a>
+        <a href="#"><i class="fas fa-file-medical"></i> Medical Records</a>
+        <a href="#"><i class="fas fa-prescription-bottle"></i> Prescriptions</a>
+        <a href="#"><i class="fas fa-credit-card"></i> Billing</a>
+        <a href="../login.html" onclick="localStorage.clear()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+
+    <div class="main-content">
+        <div class="dashboard-grid">
+            <div class="card">
+                <h3><i class="fas fa-calendar-check"></i> My Appointments</h3>
+                <ul class="appointments-list" id="appointmentsList">
+                    <li>
+                        <div class="appointment-info">
+                            <strong>Dr. Emily Carter</strong>
+                            <span>Tomorrow, 10:00 AM | Cardiology</span>
+                        </div>
+                        <span class="badge badge-upcoming">Upcoming</span>
+                    </li>
+                    <li>
+                        <div class="appointment-info">
+                            <strong>Dr. Michael Johnson</strong>
+                            <span>Dec 20, 2:00 PM | General Checkup</span>
+                        </div>
+                        <span class="badge badge-completed">Completed</span>
+                    </li>
+                </ul>
+                <a href="bookapp.html" class="btn btn-primary" style="margin-top: 15px;">
+                    <i class="fas fa-plus"></i> Book New Appointment
+                </a>
+            </div>
+
+            <div class="card">
+                <h3><i class="fas fa-user-md"></i> My Doctors</h3>
+                <ul class="appointments-list">
+                    <li>
+                        <div class="appointment-info">
+                            <strong>Dr. Emily Carter</strong>
+                            <span>Cardiologist | Primary Care</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="appointment-info">
+                            <strong>Dr. Michael Johnson</strong>
+                            <span>General Practitioner</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3><i class="fas fa-pills"></i> Current Medications</h3>
+                <ul class="appointments-list">
+                    <li>
+                        <div class="appointment-info">
+                            <strong>Lisinopril 10mg</strong>
+                            <span>Once daily | Prescribed by Dr. Carter</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="appointment-info">
+                            <strong>Metformin 500mg</strong>
+                            <span>Twice daily | Prescribed by Dr. Johnson</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3><i class="fas fa-heartbeat"></i> Health Summary</h3>
+                <ul class="appointments-list">
+                    <li>
+                        <div class="appointment-info">
+                            <strong>Blood Pressure</strong>
+                            <span>120/80 mmHg | Normal</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="appointment-info">
+                            <strong>Last Checkup</strong>
+                            <span>Dec 15, 2024 | All Clear</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="appointment-info">
+                            <strong>Next Appointment</strong>
+                            <span>Tomorrow | Cardiology Follow-up</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+window.onload = function() {
+    const patient = JSON.parse(localStorage.getItem('currentPatient'));
+    if (patient) {
+        document.getElementById('patientName').textContent = patient.name;
+        const initials = patient.name.split(' ').map(n => n[0]).join('');
+        document.getElementById('profilePic').textContent = initials;
+    }
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Medical Report - Intelligent HMS</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="../pdf-export.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background-color: #f4f7f9;
+            color: #333;
+        }
+
+        .header {
+            background-color: #007bff;
+            color: #fff;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-info span {
+            margin-right: 15px;
+            font-size: 16px;
+        }
+
+        .user-info .profile-pic {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #fff;
+            color: #007bff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .container {
+            display: flex;
+            min-height: calc(100vh - 80px);
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .sidebar a {
+            text-decoration: none;
+            color: #555;
+            padding: 15px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar a:hover, .sidebar a.active {
+            background-color: #e9f5ff;
+            color: #007bff;
+        }
+
+        .sidebar a i {
+            margin-right: 10px;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .report-container {
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .header-section {
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .diagnosis-card {
+            border-left: 5px solid #28a745;
+            padding: 15px;
+            background-color: #e9f7ee;
+            margin-top: 15px;
+        }
+
+        .section-title {
+            color: #007bff;
+            border-bottom: 1px solid #dee2e6;
+            padding-bottom: 5px;
+            margin-top: 20px;
+        }
+
+        .lab-table th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn-print {
+            margin-top: 20px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        @media print {
+            .header, .sidebar, .btn-print { display: none; }
+            .container { display: block; }
+            .main-content { padding: 0; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>Reports Dashboard</h1>
+    <div class="user-info">
+        <span id="doctorName">Dr. Emily Carter</span>
+        <div class="profile-pic" id="profilePic">EC</div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="sidebar">
+        <a href="homepage.html"><i class="fas fa-home"></i> Home</a>
+        <a href="app.html"><i class="fas fa-calendar-check"></i> Appointments</a>
+        <a href="patient.html"><i class="fas fa-users"></i> Patients</a>
+        <a href="reports.html" class="active"><i class="fas fa-chart-line"></i> Reports</a>
+        <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+        <a href="../login.html" onclick="localStorage.clear()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+
+    <div class="main-content">
+        <div class="report-container">
+
+    <div class="header-section">
+        <h1 class="text-primary mb-1">🏥 Intelligent HMS Medical Report</h1>
+        <p class="text-secondary">**Report ID:** RPT-2025-4521 | **Date:** 2025-10-09</p>
+
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <h4 class="mb-2">**Patient Details**</h4>
+                <p><strong>Name:</strong> Sarah J. Connor</p>
+                <p><strong>DOB:</strong> 1965-12-15</p>
+                <p><strong>MRN:</strong> 987654</p>
+            </div>
+            <div class="col-md-6">
+                <h4 class="mb-2">**Attending Physician**</h4>
+                <p><strong>Dr.:</strong> Anya Sharma, MD</p>
+                <p><strong>Specialty:</strong> Cardiology</p>
+                <p><strong>Contact:</strong> (555) 123-4567</p>
+            </div>
+        </div>
+    </div>
+
+    <h3 class="section-title">Summary of Visit</h3>
+    <div class="diagnosis-card">
+        <h4 class="text-success mb-2">**Final Diagnosis**</h4>
+        <p class="lead"><strong>I10:</strong> Essential (Primary) Hypertension</p>
+        <p class="lead"><strong>E78.5:</strong> Hyperlipidemia, Unspecified</p>
+        <p><strong>Condition Status:</strong> Stable and Controlled.</p>
+    </div>
+
+    <h3 class="section-title">Clinical Findings</h3>
+
+    <h5 class="mt-3">**A. Subjective (Patient History)**</h5>
+    <p>Patient reports feeling well. Denies chest pain, shortness of breath, or palpitations since the last visit. Reports adherence to all medications and maintaining a daily walking routine.</p>
+
+    <h5 class="mt-3">**B. Objective (Physical Exam & Vitals)**</h5>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item"><strong>BP:</strong> 128/82 mmHg | <strong>HR:</strong> 65 bpm</li>
+        <li class="list-group-item">**Physical Exam:** Heart sounds are regular. Lungs clear. No pedal edema noted.</li>
+        <li class="list-group-item">**Medications:** Amlodipine 5mg daily, Atorvastatin 20mg daily. (No changes made).</li>
+    </ul>
+
+    <h3 class="section-title">Latest Lab Results (2025-09-25)</h3>
+    <table class="table table-bordered lab-table">
+        <thead>
+            <tr>
+                <th>Test</th>
+                <th>Result</th>
+                <th>Reference Range</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Total Cholesterol</td>
+                <td>185 mg/dL</td>
+                <td>< 200 mg/dL</td>
+                <td class="text-success">✅ Normal</td>
+            </tr>
+            <tr>
+                <td>LDL Cholesterol</td>
+                <td>**95 mg/dL**</td>
+                <td>< 100 mg/dL</td>
+                <td class="text-success">✅ Target Met</td>
+            </tr>
+            <tr>
+                <td>HDL Cholesterol</td>
+                <td>52 mg/dL</td>
+                <td>> 40 mg/dL</td>
+                <td class="text-success">✅ Normal</td>
+            </tr>
+            <tr>
+                <td>Potassium</td>
+                <td>4.1 mEq/L</td>
+                <td>3.5 - 5.1 mEq/L</td>
+                <td class="text-success">✅ Normal</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3 class="section-title">Plan and Recommendations</h3>
+    <ol>
+        <li>**Medication:** Continue current medications as prescribed.</li>
+        <li>**Lifestyle:** Maintain current diet and exercise routine.</li>
+        <li>**Follow-up:** Schedule next appointment in **6 months** (April 2026).</li>
+        <li>**Diagnostics:** Annual EKG and repeat full Lipid Panel in 3 months.</li>
+    </ol>
+
+    <div class="text-right mt-5">
+        <p>Digitally Signed: **Dr. Anya Sharma, MD**</p>
+        <p class="text-muted">*This report is generated and authenticated by the Intelligent HMS.*</p>
+    </div>
+
+            <button onclick="window.print()" class="btn btn-primary btn-print">🖨️ Print Report</button>
+           <a href="report.pdf" download>
+    <button class="btn btn-primary btn-print">Download PDF Report</button>
+</a>
+        </div>
+    </div>
+</div>
+
+<script>
+window.onload = function() {
+    const doctor = JSON.parse(localStorage.getItem('currentDoctor'));
+    if (doctor) {
+        document.getElementById('doctorName').textContent = doctor.name;
+        const initials = doctor.name.split(' ').map(n => n[0]).join('');
+        document.getElementById('profilePic').textContent = initials;
+    }
+};
+</script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</body>
+</html>

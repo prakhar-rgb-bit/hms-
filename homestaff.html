@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Dashboard - Hospital Management System</title>
+    <link rel="stylesheet" href="../styles.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+<div class="header staff">
+    <h1 id="dashboardTitle">Staff Dashboard</h1>
+    <div class="user-info">
+        <span id="staffName">Sarah Johnson</span>
+        <div class="profile-pic staff" id="profilePic">SJ</div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="sidebar" id="sidebar">
+        <a href="homestaff.html" class="active"><i class="fas fa-home"></i> Home</a>
+        <a href="#"><i class="fas fa-tasks"></i> Tasks</a>
+        <a href="../Patient/patient.html"><i class="fas fa-users"></i> Patients</a>
+        <a href="#"><i class="fas fa-calendar"></i> Schedule</a>
+        <a href="#"><i class="fas fa-cog"></i> Settings</a>
+        <a href="../login.html" onclick="localStorage.clear()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+
+    <div class="main-content">
+        <div class="dashboard-grid" id="dashboardContent">
+            <!-- Content will be loaded based on staff role -->
+        </div>
+    </div>
+</div>
+
+<script>
+const staffRoles = {
+    "Nurse": {
+        title: "Nurse Dashboard",
+        tasks: [
+            { task: "Patient Vitals Check", patient: "Room 101", priority: "high" },
+            { task: "Medication Administration", patient: "Room 205", priority: "high" },
+            { task: "Patient Discharge Prep", patient: "Room 150", priority: "medium" }
+        ],
+        stats: [
+            { label: "Patients Assigned", value: "12" },
+            { label: "Tasks Completed", value: "8" },
+            { label: "Pending Tasks", value: "4" }
+        ]
+    },
+    "Receptionist": {
+        title: "Reception Dashboard",
+        tasks: [
+            { task: "Schedule Dr. Carter Appointment", patient: "John Smith", priority: "medium" },
+            { task: "Insurance Verification", patient: "Mary Johnson", priority: "high" },
+            { task: "Patient Check-in", patient: "Walk-in Patient", priority: "low" }
+        ],
+        stats: [
+            { label: "Appointments Today", value: "25" },
+            { label: "Check-ins Completed", value: "18" },
+            { label: "Pending Verifications", value: "3" }
+        ]
+    },
+    "Lab Technician": {
+        title: "Lab Dashboard",
+        tasks: [
+            { task: "Blood Test Analysis", patient: "Sample #1234", priority: "high" },
+            { task: "X-Ray Processing", patient: "Sample #1235", priority: "medium" },
+            { task: "Equipment Calibration", patient: "Lab Equipment", priority: "low" }
+        ],
+        stats: [
+            { label: "Tests Completed", value: "15" },
+            { label: "Pending Results", value: "7" },
+            { label: "Equipment Status", value: "All OK" }
+        ]
+    },
+    "Pharmacist": {
+        title: "Pharmacy Dashboard",
+        tasks: [
+            { task: "Prescription Review", patient: "John Smith", priority: "high" },
+            { task: "Inventory Check", patient: "Medication Stock", priority: "medium" },
+            { task: "Drug Interaction Check", patient: "Mary Johnson", priority: "high" }
+        ],
+        stats: [
+            { label: "Prescriptions Filled", value: "32" },
+            { label: "Pending Reviews", value: "5" },
+            { label: "Low Stock Items", value: "3" }
+        ]
+    }
+};
+
+window.onload = function() {
+    const staff = JSON.parse(localStorage.getItem('currentUser')) || { name: "Sarah Johnson", role: "Nurse" };
+    
+    document.getElementById('staffName').textContent = staff.name;
+    const initials = staff.name.split(' ').map(n => n[0]).join('');
+    document.getElementById('profilePic').textContent = initials;
+    
+    const roleData = staffRoles[staff.role] || staffRoles["Nurse"];
+    document.getElementById('dashboardTitle').textContent = roleData.title;
+    
+    const dashboardContent = document.getElementById('dashboardContent');
+    dashboardContent.innerHTML = `
+        <div class="card">
+            <h3><i class="fas fa-tasks"></i> Today's Tasks</h3>
+            <ul class="task-list">
+                ${roleData.tasks.map(task => `
+                    <li>
+                        <div class="task-info">
+                            <strong>${task.task}</strong>
+                            <span>${task.patient}</span>
+                        </div>
+                        <span class="badge badge-${task.priority}">${task.priority.charAt(0).toUpperCase() + task.priority.slice(1)}</span>
+                    </li>
+                `).join('')}
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3><i class="fas fa-chart-bar"></i> Key Statistics</h3>
+            <ul class="task-list">
+                ${roleData.stats.map(stat => `
+                    <li>
+                        <div class="task-info">
+                            <strong>${stat.label}</strong>
+                        </div>
+                        <strong>${stat.value}</strong>
+                    </li>
+                `).join('')}
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3><i class="fas fa-clock"></i> Quick Actions</h3>
+            <ul class="task-list">
+                <li>
+                    <div class="task-info">
+                        <strong>Clock In/Out</strong>
+                        <span>Manage your work hours</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="task-info">
+                        <strong>Request Time Off</strong>
+                        <span>Submit vacation requests</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="task-info">
+                        <strong>View Schedule</strong>
+                        <span>Check your work schedule</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    `;
+};
+</script>
+</body>
+</html>

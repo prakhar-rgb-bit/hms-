@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointments - Doctor's Dashboard</title>
+    <link rel="stylesheet" href="styles.css"> 
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="../pdf-export.js"></script>
+    <style>
+        /* --- General Reset & Fonts --- */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            background-color: #f4f7f9;
+            color: #333;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .dashboard-header {
+            background-color: #fff;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2980b9;
+        }
+
+        .doctor-profile {
+            display: flex;
+            align-items: center;
+        }
+
+        .doctor-photo {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 15px;
+        }
+
+        .doctor-info h3 {
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        .doctor-info p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: #777;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .sidebar a {
+            text-decoration: none;
+            color: #555;
+            padding: 15px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar a:hover, .sidebar a.active {
+            background-color: #e9f5ff;
+            color: #007bff;
+        }
+
+        .sidebar a i {
+            margin-right: 10px;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            padding: 30px;
+        }
+
+        /* --- Appointment Page Specific Styles --- */
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .filter-controls {
+            display: flex;
+            gap: 15px;
+        }
+
+        .date-picker, .filter-select {
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .appointments-list-container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .appointment-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .appointment-item:last-child {
+            border-bottom: none;
+        }
+
+        .patient-photo-small {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 20px;
+        }
+
+        .appointment-details {
+            flex-grow: 1;
+        }
+
+        .appointment-details h3 {
+            margin: 0;
+            font-size: 1.2rem;
+            color: #2c3e50;
+        }
+
+        .appointment-details p {
+            margin: 5px 0;
+            color: #555;
+            font-size: 0.9rem;
+        }
+
+        .status {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .status.upcoming { background-color: #f39c12; }
+        .status.completed { background-color: #27ae60; }
+
+        .appointment-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.3s;
+        }
+
+        .start-consultation-btn {
+            background-color: #3498db;
+            color: #fff;
+        }
+
+        .start-consultation-btn:hover {
+            background-color: #2980b9;
+        }
+
+        .view-record-btn {
+            background-color: #2ecc71;
+            color: #fff;
+        }
+
+        .view-record-btn:hover {
+            background-color: #27ae60;
+        }
+
+        /* Add more specific CSS from the previous response if needed */
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="sidebar">
+        <a href="homepage.html"><i class="fas fa-home"></i> Home</a>
+        <a href="app.html"><i class="fas fa-calendar-check"></i> Appointments</a>
+        <a href="patient.html" class="active"><i class="fas fa-users"></i> Patients</a>
+        <a href="reports.html"><i class="fas fa-chart-line"></i> Reports</a>
+        <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+        <a href="login.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+
+    <div class="main-content">
+        <header class="dashboard-header">
+            <div class="logo">Hospital Management</div>
+            <div class="doctor-profile">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrLPPHEfAOCzCmusBUbirWlRzdCt6s6M-1wQ&s" alt="Dr. Emily Carter" class="doctor-photo">
+                <div class="doctor-info">
+                    <h3>Dr. Emily Carter</h3>
+                    <p>Cardiology</p>
+                </div>
+            </div>
+        </header>
+            <div class="content-header">
+                <h2>All Patient Appointments</h2>
+                <div class="filter-controls">
+                    <input type="date" id="appointment-date" class="date-picker">
+                    <select id="appointment-filter" class="filter-select">
+                        <option value="all">All Appointments</option>
+                        <option value="today">Today</option>
+                        <option value="upcoming">Upcoming</option>
+                        <option value="checked-in">Checked-In</option>
+                    </select>
+                </div>
+            </div>
+
+            <section class="appointments-list-section">
+                <div class="appointments-list-container">
+                    
+                    <div class="appointment-item">
+                        <img src="[Placeholder URL for Patient John Doe]" alt="John Doe" class="patient-photo-small">
+                        <div class="appointment-details">
+                            <h3>John Doe</h3>
+                            <p><strong>Time:</strong> 10:30 AM | **DOB:** 15/05/1980</p>
+                            <p><strong>Reason:</strong> Follow-up on recent test results.</p>
+                            <p><strong>Status:</strong> <span class="status upcoming">Upcoming</span></p>
+                        </div>
+                        <div class="appointment-actions">
+                            <button class="action-btn start-consultation-btn">View Details</button>
+                            <button class="action-btn reschedule-btn">Reschedule</button>
+                        </div>
+                    </div>
+
+                    <div class="appointment-item">
+                        <img src="[Placeholder URL for Patient Jane Smith]" alt="Jane Smith" class="patient-photo-small">
+                        <div class="appointment-details">
+                            <h3>Jane Smith</h3>
+                            <p><strong>Time:</strong> 11:00 AM | **DOB:** 01/10/1995</p>
+                            <p><strong>Reason:</strong> Annual health check-up.</p>
+                            <p><strong>Status:</strong> <span class="status checked-in" style="background-color: #27ae60;">Checked-In</span></p>
+                        </div>
+                        <div class="appointment-actions">
+                            <button class="action-btn start-consultation-btn">Start Consultation</button> 
+                            <button class="action-btn view-record-btn">View Record</button>
+                        </div>
+                    </div>
+
+                    <div class="appointment-item">
+                        <img src="[Placeholder URL for Patient Robert Brown]" alt="Robert Brown" class="patient-photo-small">
+                        <div class="appointment-details">
+                            <h3>Robert Brown</h3>
+                            <p><strong>Time:</strong> 09:00 AM | **DOB:** 22/07/1965</p>
+                            <p><strong>Reason:</strong> Post-op follow-up.</p>
+                            <p><strong>Status:</strong> <span class="status completed">Completed</span></p>
+                        </div>
+                        <div class="appointment-actions">
+                            <button class="action-btn view-record-btn">View Record</button>
+                            <button class="action-btn follow-up-btn" style="background-color: #8e44ad;">Create Follow-up</button>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+    </div>
+</div>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</body>
+</html>

@@ -4,92 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Forgot Password</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .forgot-password-container {
-            background-color: #fff;
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 300px;
-            text-align: center;
-        }
-        .forgot-password-container h2 {
-            margin-bottom: 10px;
-            color: #333;
-        }
-        .forgot-password-container p {
-            font-size: 14px;
-            color: #777;
-            margin-bottom: 25px;
-        }
-        .form-group {
-            margin-bottom: 15px;
-            text-align: left;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            color: #555;
-        }
-        .form-group input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        .reset-button {
-            width: 100%;
-            padding: 10px;
-            background-color: #007BFF;
-            border: none;
-            border-radius: 4px;
-            color: #fff;
-            font-size: 16px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-        .reset-button:hover {
-            background-color: #0056b3;
-        }
-        .back-to-login {
-            margin-top: 20px;
-            font-size: 14px;
-        }
-        .back-to-login a {
-            color: #007BFF;
-            text-decoration: none;
-        }
-        .back-to-login a:hover {
-            text-decoration: underline;
-        }
-    </style>
+
+
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-<body>
+<body class="forgot-password-page">
 
 <div class="forgot-password-container">
-    <h2>Forgot Password</h2>
+    <img src="https://media.istockphoto.com/id/1815039685/vector/caduceus-medical-symbol-sign-stock-vector.jpg?s=612x612&w=0&k=20&c=V7ulOLsszq0oZt0m4IhgQN1XrHIHhT_9FB9WO2LdisA=" alt="Company Logo" class="logo"> <h2>Forgot Password</h2>
     <p>Enter your email address and we'll send you a link to reset your password.</p>
-    <form action="#" method="post">
+    <form id="forgot-password-form" onsubmit="showConfirmation(event)">
         <div class="form-group">
             <label for="email">Email Address</label>
             <input type="email" id="email" name="email" required>
         </div>
         <button type="submit" class="reset-button">Send Reset Link</button>
     </form>
+    <div id="confirmation-message">Link Sent!</div>
     <div class="back-to-login">
         <a href="login.html">Back to Login</a>
     </div>
 </div>
+
+<script>
+    function showConfirmation(event) {
+        event.preventDefault();
+        const form = document.getElementById('forgot-password-form');
+        const confirmationMessage = document.getElementById('confirmation-message');
+        
+        form.style.display = 'none';
+        confirmationMessage.style.display = 'block';
+
+        // In a real application, you would also send the data to a server here.
+        // const email = document.getElementById('email').value;
+        // fetch('/api/forgot-password', {
+        //     method: 'POST',
+        //     headers: { 'Content-Type': 'application/json' },
+        //     body: JSON.stringify({ email: email })
+        // });
+    }
+</script>
 
 </body>
 </html>
